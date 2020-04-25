@@ -1,0 +1,156 @@
+#include <stdio.h>
+#include <string.h>
+#include "board.h"
+#include "fsl_debug_console.h"
+#include "emwin_support.h"
+#include "GUI.h"
+#include "GUIDRV_Lin.h"
+#include "BUTTON.h"
+#include "pin_mux.h"
+#include "fsl_sctimer.h"
+/*******************************************************************************
+ * Definitions
+ ******************************************************************************/
+#define RUN_BUTTON_ID  (GUI_ID_BUTTON0)
+
+/*******************************************************************************
+ * Variables
+ ******************************************************************************/
+BUTTON_Handle hButtonRun;
+
+
+/*******************************************************************************
+ * Code
+ ******************************************************************************/
+void BOARD_InitPWM(void)
+{
+	sctimer_config_t config;
+	sctimer_pwm_signal_param_t pwmParam;
+	uint32_t event;
+
+	CLOCK_AttachClk(kMAIN_CLK_to_SCT_CLK);
+	CLOCK_SetClkDiv(kCLOCK_DivSctClk, 2, true);
+	SCTIMER_GetDefaultConfig(&config);
+	SCTIMER_Init(SCT0, &config);
+	pwmParam.output = kSCTIMER_Out_5;
+	pwmParam.level = kSCTIMER_HighTrue;
+	pwmParam.dutyCyclePercent = 5;
+	SCTIMER_SetupPwm(SCT0, &pwmParam, kSCTIMER_CenterAlignedPwm, 1000U, CLOCK_GetFreq(kCLOCK_Sct), &event);
+	SCTIMER_StartTimer(SCT0, kSCTIMER_Counter_L);
+}
+
+
+static void cbBackgroundWin(WM_MESSAGE *pMsg)
+{
+	int widget_id;
+
+	switch (pMsg->MsgId)
+	{
+	case WM_NOTIFY_PARENT:
+		widget_id = WM_GetId(pMsg->hWinSrc);
+		if (widget_id == RUN_BUTTON_ID && pMsg->Data.v == WM_NOTIFICATION_CLICKED)
+		{
+			GUI_Clear();
+		}
+		break;
+	case WM_PAINT:
+		GUI_SetBkColor(GUI_LIGHTGRAY);
+		GUI_Clear();
+		break;
+	default:
+		WM_DefaultProc(pMsg);
+	}
+}
+
+static void cbCanvasWin(WM_MESSAGE *pMsg)
+{
+	GUI_PID_STATE *pid_state;
+	static GUI_PID_STATE pid_state_0;
+
+	switch (pMsg->MsgId)
+	{
+	case WM_PID_STATE_CHANGED:
+		pid_state = (GUI_PID_STATE *)pMsg->Data.p;
+		if (pid_state->Pressed)
+		{
+			GUI_DrawPoint(pid_state->x, pid_state->y);
+		}
+		pid_state_0 = *pid_state;
+		break;
+	case WM_TOUCH:
+		pid_state = (GUI_PID_STATE *)pMsg->Data.p;
+		if (pid_state->Pressed)
+		{
+			if (pid_state_0.Pressed)
+			{
+				GUI_DrawLine(pid_state_0.x, pid_state_0.y, pid_state->x, pid_state->y);
+			}
+		}
+		pid_state_0 = *pid_state;
+		break;
+	case WM_MOUSEOVER_END:
+		pid_state = (GUI_PID_STATE *)pMsg->Data.p;
+		pid_state_0 = *pid_state;
+		break;
+	default:
+		WM_DefaultProc(pMsg);
+	}
+}
+
+int main(void)
+{
+	/* Board pin, clock, debug console init */
+	/* attach 12 MHz clock to FLEXCOMM0 (debug console) */
+	CLOCK_AttachClk(BOARD_DEBUG_UART_CLK_ATTACH);
+	/* Route Main clock to LCD. */
+	CLOCK_AttachClk(kMAIN_CLK_to_LCD_CLK);
+	/* attach 12 MHz clock to FLEXCOMM2 (I2C master for touch controller) */
+	CLOCK_AttachClk(kFRO12M_to_FLEXCOMM2);
+	CLOCK_EnableClock(kCLOCK_Gpio2);
+	CLOCK_SetClkDiv(kCLOCK_DivLcdClk, 1, true);
+	BOARD_InitPins();
+	BOARD_BootClockPLL220M();
+	BOARD_InitDebugConsole();
+	BOARD_InitSDRAM();
+	/* Set the back light PWM. */
+	BOARD_InitPWM();
+	/* emWin start */
+	GUI_Init();
+	/* Set size and default color for the background window */
+	WM_SetSize(WM_HBKWIN, LCD_WIDTH, LCD_HEIGHT);
+	WM_SetDesktopColor(GUI_BLACK);
+	/* Set callback for the backgroung window */
+	WM_SetCallback(WM_HBKWIN, cbBackgroundWin);
+
+	BUTTON_SetReactOnLevel();
+	/* Create buttons */
+	hButtonRun = BUTTON_CreateEx(4, 2, 95, 25, 0, WM_CF_SHOW, 0, RUN_BUTTON_ID);
+	BUTTON_SetText(hButtonRun, "Run");
+
+	/* Create canvas */
+	WM_HWIN hCanvas;
+	hCanvas = WM_CreateWindowAsChild(0, 30, WM_GetWindowSizeX(WM_HBKWIN), WM_GetWindowSizeY(WM_HBKWIN) - 30, 0, WM_CF_SHOW, cbCanvasWin, 0);
+	/* Select canvas window and leave it selected forever */
+	WM_SelectWindow(hCanvas);
+	/* Solid color display */
+	GUI_SetBkColor(GUI_BLACK);
+	GUI_Clear();
+	GUI_SetColor(GUI_RED);
+	GUI_SetDrawMode(GUI_DM_NORMAL);
+	GUI_SetPenSize(4);
+	GUI_DispStringHCenterAt("Programowanie systemow wbudowanychi Internetu rzeczy\n\nbiblioteka emWin", WM_GetWindowSizeX(hCanvas) / 2, WM_GetWindowSizeY(hCanvas) / 2);
+	GUI_SetColor(GUI_LIGHTBLUE);
+
+	WM_Exec();
+
+	while (1)
+	{
+		/* Poll touch controller for update */
+		if (BOARD_Touch_Poll())
+		{
+			GUI_MULTIBUF_Begin();
+			WM_Exec();
+			GUI_MULTIBUF_End();
+		}
+	}
+}

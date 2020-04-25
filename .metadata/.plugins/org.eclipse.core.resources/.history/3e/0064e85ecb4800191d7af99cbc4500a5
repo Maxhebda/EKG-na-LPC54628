@@ -1,0 +1,31 @@
+#ifndef DESKTOP_H_
+#define DESKTOP_H_
+
+#include "emwin_support.h"
+#include "WM.h"
+
+/* ------------------------------------------------------ */
+/* ----------------------- MACROS ----------------------- */
+/* ------------------------------------------------------ */
+
+#define DESKTOP_HEAD_COLOR	0xFF2A2A2A
+#define DESKTOP_BG_COLOR	0xFF111214
+
+#define HEAD_WIDTH			LCD_WIDTH
+#define HEAD_HEIGHT			52
+
+#define HEART_BTN_WIDTH 	32
+#define HEART_BTN_HEIGHT 	HEART_BTN_WIDTH
+#define HEART_BTN_X 		60
+#define HEART_BTN_Y 		8
+
+/* GUI IDs */
+#define HEART_BTN_ID		GUI_ID_BUTTON0
+
+/* ------------------------------------------------------ */
+/* ------------------------ API ------------------------- */
+/* ------------------------------------------------------ */
+
+void desktopCallback(WM_MESSAGE *pMsg);
+
+#endif /* DESKTOP_H_ */

@@ -1,0 +1,11 @@
+#include "adc.h"
+
+void ADC_ClockPower_Configuration(void)
+{
+
+}
+
+void ADC_Configuration(void)
+{
+
+}

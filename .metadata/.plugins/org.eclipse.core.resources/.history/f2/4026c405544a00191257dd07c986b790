@@ -1,0 +1,45 @@
+#ifndef PLOT_H_
+#define PLOT_H_
+
+#include "GUI.h"
+#include "emwin_support.h"
+#include "desktop.h"
+
+/* ------------------------------------------------------ */
+/* ----------------------- MACROS ----------------------- */
+/* ------------------------------------------------------ */
+
+/* Colors */
+#define PLOT_BG_COLOR_LIGHT		0xFFF1F1F1
+#define PLOT_GRID_COLOR_LIGHT	0xFFC7C7C7
+#define PLOT_COLOR_LIGHT 		0xFF3E89BD
+
+#define PLOT_BG_COLOR_DARK		0xFF000000
+#define PLOT_GRID_COLOR_DARK    GUI_MAKE_ALPHA(128, GUI_GRAY)
+#define PLOT_COLOR_DARK_G		0xFF0EC919
+#define PLOT_COLOR_DARK_R		GUI_RED
+
+/* Dimensions */
+#define PLOT_WIN_X				0
+#define PLOT_WIN_Y				HEAD_HEIGHT
+#define PLOT_X					0
+#define PLOT_Y					HEAD_HEIGHT
+#define PLOT_WIDTH				LCD_WIDTH
+#define PLOT_HEIGHT				(LCD_HEIGHT - HEAD_HEIGHT)
+
+/* EKG graph properties */
+#define GRAPH_GRIDNUM_X			10
+#define GRAPH_GRIDNUM_Y			10
+
+/* GUI IDs */
+#define EKG_GRAPH_ID			GUI_ID_GRAPH0
+
+#define TIMER_ID				0
+
+/* ------------------------------------------------------ */
+/* ------------------------ API ------------------------- */
+/* ------------------------------------------------------ */
+
+void plotCallback(WM_MESSAGE *pMsg);
+
+#endif /* PLOT_H_ */

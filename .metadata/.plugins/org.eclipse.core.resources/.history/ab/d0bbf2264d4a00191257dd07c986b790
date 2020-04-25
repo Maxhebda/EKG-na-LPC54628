@@ -1,0 +1,8 @@
+#ifndef ADC_H_
+#define ADC_H_
+
+void ADC_ClockPower_Configuration(void);
+
+void ADC_Configuration(void);
+
+#endif /* ADC_H_ */

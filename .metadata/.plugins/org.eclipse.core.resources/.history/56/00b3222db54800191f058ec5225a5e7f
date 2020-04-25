@@ -1,0 +1,23 @@
+#ifndef PLOT_H_
+#define PLOT_H_
+
+/* ------------------------------------------------------ */
+/* ----------------------- MACROS ----------------------- */
+/* ------------------------------------------------------ */
+
+#define PLOT_BG_COLOR_LIGHT		0xFFF1F1F1
+#define PLOT_GRID_COLOR_LIGHT	0xFFC7C7C7
+#define PLOT_COLOR_LIGHT 		0xFF3E89BD
+
+#define PLOT_BG_COLOR_DARK		0xFF000000
+#define PLOT_GRID_COLOR_DARK    0xFF4F5C31
+#define PLOT_COLOR_DARK			0xFF0EC919
+
+
+/* ------------------------------------------------------ */
+/* ------------------------ API ------------------------- */
+/* ------------------------------------------------------ */
+
+
+
+#endif /* PLOT_H_ */

@@ -1,0 +1,38 @@
+19:39:58 **** Incremental Build of configuration Debug for project heart_monitor ****
+make -r -j4 all 
+Building file: ../source/main.c
+Building file: ../gui/desktop.c
+Building file: ../gui/plot.c
+Invoking: MCU C Compiler
+Invoking: MCU C Compiler
+Invoking: MCU C Compiler
+arm-none-eabi-gcc -std=gnu99 -D__USE_CMSIS -DCPU_LPC54628J512ET180=1 -DSDK_DEBUGCONSOLE=1 -DPRINTF_FLOAT_ENABLE=1 -DCPU_LPC54628J512ET180 -DCPU_LPC54628J512ET180_cm4 -D__MCUXPRESSO -DDEBUG -D__REDLIB__ -I../board -I"/home/sobriodev/Documents/MCUXpresso_10.2.1_795/heart_monitor/heart_monitor/gui" -I../source -I../ -I../drivers -I../device -I../CMSIS -I../touchpanel -I../emwin/emWin_header -I../emwin/emWin_Config -I../utilities -I../component/serial_manager -I../component/uart -I../component/lists -O0 -fno-common -g3 -Wall -c  -ffunction-sections  -fdata-sections  -ffreestanding  -fno-builtin -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -D__REDLIB__ -specs=redlib.specs -MMD -MP -MF"source/main.d" -MT"source/main.o" -MT"source/main.d" -o "source/main.o" "../source/main.c"
+arm-none-eabi-gcc -std=gnu99 -D__USE_CMSIS -DCPU_LPC54628J512ET180=1 -DSDK_DEBUGCONSOLE=1 -DPRINTF_FLOAT_ENABLE=1 -DCPU_LPC54628J512ET180 -DCPU_LPC54628J512ET180_cm4 -D__MCUXPRESSO -DDEBUG -D__REDLIB__ -I../board -I"/home/sobriodev/Documents/MCUXpresso_10.2.1_795/heart_monitor/heart_monitor/gui" -I../source -I../ -I../drivers -I../device -I../CMSIS -I../touchpanel -I../emwin/emWin_header -I../emwin/emWin_Config -I../utilities -I../component/serial_manager -I../component/uart -I../component/lists -O0 -fno-common -g3 -Wall -c  -ffunction-sections  -fdata-sections  -ffreestanding  -fno-builtin -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -D__REDLIB__ -specs=redlib.specs -MMD -MP -MF"gui/desktop.d" -MT"gui/desktop.o" -MT"gui/desktop.d" -o "gui/desktop.o" "../gui/desktop.c"
+arm-none-eabi-gcc -std=gnu99 -D__USE_CMSIS -DCPU_LPC54628J512ET180=1 -DSDK_DEBUGCONSOLE=1 -DPRINTF_FLOAT_ENABLE=1 -DCPU_LPC54628J512ET180 -DCPU_LPC54628J512ET180_cm4 -D__MCUXPRESSO -DDEBUG -D__REDLIB__ -I../board -I"/home/sobriodev/Documents/MCUXpresso_10.2.1_795/heart_monitor/heart_monitor/gui" -I../source -I../ -I../drivers -I../device -I../CMSIS -I../touchpanel -I../emwin/emWin_header -I../emwin/emWin_Config -I../utilities -I../component/serial_manager -I../component/uart -I../component/lists -O0 -fno-common -g3 -Wall -c  -ffunction-sections  -fdata-sections  -ffreestanding  -fno-builtin -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -D__REDLIB__ -specs=redlib.specs -MMD -MP -MF"gui/plot.d" -MT"gui/plot.o" -MT"gui/plot.d" -o "gui/plot.o" "../gui/plot.c"
+Finished building: ../gui/desktop.c
+ 
+Finished building: ../source/main.c
+ 
+Finished building: ../gui/plot.c
+ 
+Building target: heart_monitor.axf
+Invoking: MCU Linker
+arm-none-eabi-gcc -nostdlib -L"/home/sobriodev/Documents/MCUXpresso_10.2.1_795/heart_monitor/heart_monitor/libs" -L"/home/sobriodev/Documents/MCUXpresso_10.2.1_795/heart_monitor/heart_monitor/emwin/emWin_library/MCUXpresso" -Xlinker -Map="heart_monitor.map" -Xlinker --gc-sections -Xlinker -print-memory-usage -Xlinker --sort-section=alignment -mcpu=cortex-m4 -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -T "Lab03_emwin_Debug.ld" -o "heart_monitor.axf"  ./utilities/fsl_assert.o ./utilities/fsl_debug_console.o ./utilities/fsl_str.o  ./touchpanel/fsl_ft5406.o  ./startup/startup_lpc54628.o  ./source/adc.o ./source/main.o ./source/semihost_hardfault.o  ./gui/bitmaps.o ./gui/desktop.o ./gui/plot.o  ./drivers/fsl_adc.o ./drivers/fsl_clock.o ./drivers/fsl_common.o ./drivers/fsl_emc.o ./drivers/fsl_flexcomm.o ./drivers/fsl_gpio.o ./drivers/fsl_i2c.o ./drivers/fsl_lcdc.o ./drivers/fsl_power.o ./drivers/fsl_reset.o ./drivers/fsl_sctimer.o ./drivers/fsl_usart.o  ./device/system_LPC54628.o  ./component/uart/usart_adapter.o  ./component/serial_manager/serial_manager.o ./component/serial_manager/serial_port_uart.o  ./component/lists/generic_list.o  ./board/board.o ./board/clock_config.o ./board/emwin_support.o ./board/pin_mux.o   -lpower_hardabi -lemWin_M4F
+Memory region         Used Size  Region Size  %age Used
+   PROGRAM_FLASH:      147736 B       512 KB     28.18%
+     BOARD_FLASH:          0 GB        16 MB      0.00%
+      SRAM_UPPER:       10872 B       160 KB      6.64%
+           SRAMX:          0 GB        32 KB      0.00%
+         USB_RAM:          0 GB         8 KB      0.00%
+     BOARD_SDRAM:          0 GB        16 MB      0.00%
+Finished building target: heart_monitor.axf
+ 
+make --no-print-directory post-build
+Performing post-build steps
+arm-none-eabi-size "heart_monitor.axf"; # arm-none-eabi-objcopy -v -O binary "heart_monitor.axf" "heart_monitor.bin" ; # checksum -p LPC54628J512 -d "heart_monitor.bin";
+   text	   data	    bss	    dec	    hex	filename
+ 146560	   1176	   9696	 157432	  266f8	heart_monitor.axf
+ 
+
+19:39:58 Build Finished (took 729ms)
+

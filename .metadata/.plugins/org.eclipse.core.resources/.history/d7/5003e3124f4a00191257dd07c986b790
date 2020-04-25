@@ -1,0 +1,16 @@
+#ifndef ADC_H_
+#define ADC_H_
+
+#include "fsl_adc.h"
+
+#define ADC_BASE ADC0
+#define ADC_SAMPLE_CHANNEL_NUMBER 5U
+#define ADC_CLOCK_DIVIDER 5U
+
+void ADC_Config(void);
+
+void ADC_ClockPower_Configuration(void);
+
+void ADC_Configuration(void);
+
+#endif /* ADC_H_ */

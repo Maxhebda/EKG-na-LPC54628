@@ -1,0 +1,52 @@
+#include "desktop.h"
+#include "BUTTON.h"
+
+/* ------------------------------------------------------ */
+/* ----------------- PRIVATE VARIABLES ------------------ */
+/* ------------------------------------------------------ */
+
+/* Bitmaps */
+GUI_CONST_STORAGE GUI_BITMAP heartSmallBmp;
+
+static BUTTON_Handle heartBtnHandle;
+/* ------------------------------------------------------ */
+/* ----------------- PRIVATE FUNCTIONS ------------------ */
+/* ------------------------------------------------------ */
+
+static void _drawGUI(void)
+{
+	GUI_SetColor(DESKTOP_HEAD_COLOR);
+	GUI_FillRect(0, 0, HEAD_WIDTH - 1, HEAD_HEIGHT - 1);
+}
+
+static void _createWidgets(void)
+{
+	heartBtnHandle = BUTTON_CreateEx(HEART_BTN_X, HEART_BTN_Y, HEART_BTN_WIDTH, HEART_BTN_HEIGHT, WM_HBKWIN, WM_CF_SHOW, 0, HEART_BTN_ID);
+	BUTTON_SetBitmap(heartBtnHandle, BUTTON_BI_PRESSED, pBitmap);
+	BUTTON_SetBitmap(heartBtnHandle, BUTTON_BI_UNPRESSED, pBitmap);
+}
+
+
+/* ------------------------------------------------------ */
+/* ------------------------ API ------------------------- */
+/* ------------------------------------------------------ */
+
+void desktopCallback(WM_MESSAGE *pMsg)
+{
+	switch (pMsg->MsgId) {
+
+	/* WM_CREATE cannot be used because desktop window uses built-in HBKWIN */
+	case WM_SET_CALLBACK:
+		break;
+
+	/* Desktop repaint */
+	case WM_PAINT:
+		GUI_SetBkColor(DESKTOP_BG_COLOR);
+		GUI_Clear();
+		_drawGUI();
+		break;
+	default:
+		WM_DefaultProc(pMsg);
+
+	}
+}

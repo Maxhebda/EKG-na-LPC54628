@@ -1,0 +1,26 @@
+#ifndef PLOT_H_
+#define PLOT_H_
+
+#include "GUI.h"
+
+/* ------------------------------------------------------ */
+/* ----------------------- MACROS ----------------------- */
+/* ------------------------------------------------------ */
+
+#define PLOT_BG_COLOR_LIGHT		0xFFF1F1F1
+#define PLOT_GRID_COLOR_LIGHT	0xFFC7C7C7
+#define PLOT_COLOR_LIGHT 		0xFF3E89BD
+
+#define PLOT_BG_COLOR_DARK		0xFF000000
+#define PLOT_GRID_COLOR_DARK    0xFF4F5C31
+#define PLOT_COLOR_DARK_G		0xFF0EC919
+#define PLOT_COLOR_DARG_R		GUI_RED
+
+
+/* ------------------------------------------------------ */
+/* ------------------------ API ------------------------- */
+/* ------------------------------------------------------ */
+
+void plotCallback(WM_MESSAGE *pMsg);
+
+#endif /* PLOT_H_ */
